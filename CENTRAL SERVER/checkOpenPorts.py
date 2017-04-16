@@ -16,12 +16,13 @@ imp = ip + mac + portno
 
 for i in list_ips[1:-1]:
     for ports in range (10000, 10011):
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         result = s.connect_ex((i, ports))
         print i, ports, result
         if result == 0:
             print 'conneced'
-            s.send(imp)
+            s.send(imp + " central")
             recv_data = s.recv(4096)
             arptxt.write(recv_data + '\n')
-
+            s.close()
 arptxt.close()
